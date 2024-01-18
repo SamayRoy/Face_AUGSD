@@ -1,9 +1,9 @@
 from tkinter import *
 from tkinter import ttk
 from PIL import Image,ImageTk #Pillow Library
-from attendance_2 import Attendance 
+from attendance import Attendance 
 from student import Student
-from compProject_FaceRecognition_06012022 import *
+from compProject_FaceRecognition import *
 import numpy as np
 
 class Face_Recognition_System:

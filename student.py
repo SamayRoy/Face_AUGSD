@@ -4,9 +4,8 @@ from tkinter import messagebox
 #from tkcalendar import Calendar
 #from PIL import Image,PIL.ImageTk #Pillow Library
 import PIL.Image, PIL.ImageTk
-from compProject_FaceRecognition_06012022 import *
+from compProject_FaceRecognition import *
 from compProject_MySQL import *
-from faces import *
 import sys
 
 
@@ -19,7 +18,7 @@ class Student:
                 self.root.title("Face Recognition")
                 #self.var = 1
                 #Image 1
-                img=PIL.Image.open(r"/Users/Glovantech/Documents/Python_DeepanR/img/university.jpg")
+                img=PIL.Image.open(r"./img/university.jpg")
                 img=img.resize((500,130),PIL.Image.ANTIALIAS) #ANTIALIAS converts high level img to low level
                 self.photoimg=PIL.ImageTk.PhotoImage(img) #variable goes inside parameter
                 ''
@@ -27,7 +26,7 @@ class Student:
                 f_lb1.place(x=0,y=0,width=500,height=130) #place requires axes
 
                 #Image 2
-                img1=PIL.Image.open(r"/Users/Glovantech/Documents/Python_DeepanR/img/face.jpg")
+                img1=PIL.Image.open(r"./img/face.jpg")
                 img1=img1.resize((500,130),PIL.Image.ANTIALIAS) #ANTIALIAS converts high level img to low level
                 self.photoimg1=PIL.ImageTk.PhotoImage(img1) #variable goes inside parameter
 
@@ -35,7 +34,7 @@ class Student:
                 f_lb1.place(x=500,y=0,width=550,height=130) #place requires axes
 
                 #Image 3
-                img2=PIL.Image.open(r"/Users/Glovantech/Documents/Python_DeepanR/img/princeton.jpg")
+                img2=PIL.Image.open(r"./img/princeton.jpg")
                 img2=img2.resize((500,130),PIL.Image.ANTIALIAS) #ANTIALIAS converts high level img to low level
                 self.photoimg2=PIL.ImageTk.PhotoImage(img2) #variable goes inside parameter
 
@@ -43,7 +42,7 @@ class Student:
                 f_lb1.place(x=1000,y=0,width=550,height=130) #place requires axes
 
                 #background image
-                img3=PIL.Image.open(r"/Users/Glovantech/Documents/Python_DeepanR/img/pink.jpg")
+                img3=PIL.Image.open(r"./img/pink.jpg")
                 img3=img3.resize((1530,710),PIL.Image.ANTIALIAS) #ANTIALIAS converts high level img to low level
                 self.photoimg3=PIL.ImageTk.PhotoImage(img3) #variable goes inside parameter
 
@@ -61,7 +60,7 @@ class Student:
                 Left_frame=LabelFrame(main_frame,bd=2,relief=RIDGE,text="Student Details",font=("Helvetica",12,"bold")) #relief is border style   
                 Left_frame.place(x=10,y=10,width=730,height=580)
                 
-                img_left=PIL.Image.open(r"/Users/Glovantech/Documents/Python_DeepanR/img/princeton.jpg")
+                img_left=PIL.Image.open(r"./img/princeton.jpg")
                 img_left=img_left.resize((720,130),PIL.Image.ANTIALIAS) #ANTIALIAS converts high level img to low level
                 self.photoimg_left=PIL.ImageTk.PhotoImage(img_left) #variable goes inside parameter'''
                                
@@ -219,7 +218,7 @@ class Student:
                 Right_frame=LabelFrame(main_frame,bd=2,relief=RIDGE,text="Student Details",font=("Helvetica",12,"bold")) #relief is border style   
                 Right_frame.place(x=780,y=10,width=660,height=580)
                 
-                img_right=PIL.Image.open(r"/Users/Glovantech/Documents/Python_DeepanR/img/princeton.jpg")
+                img_right=PIL.Image.open(r"./img/princeton.jpg")
                 img_right=img_right.resize((720,130),PIL.Image.ANTIALIAS) #ANTIALIAS converts high level img to low level
                 self.photoimg_right=PIL.ImageTk.PhotoImage(img_right) #variable goes inside parameter
                 

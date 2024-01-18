@@ -34,16 +34,18 @@ def entering_password():
 		taking_password()
 
 def inserting_data(self):
-	pword = taking_password()
-	while True:
-		try:
-			print("32", pword)
-			mydb = mysql.connector.connect(host = "localhost", username = "root", password = pword)	#we'll have to adjust this according to the MySQL password for the system.
-			break
-		except:
-			messagebox.showerror("Incorrect Password", "Incorrect MySQL password. Try again.")
-			os.remove(os.path.dirname(os.path.realpath(__file__))+"/MySQL_password.txt")
-			taking_password()
+	# pword = taking_password()
+	# # pword = "new_password"
+	# while True:
+	# 	try:
+	# 		print("32", pword)
+	# 		mydb = mysql.connector.connect(host = "localhost", username = "root", password = "new_password")	#we'll have to adjust this according to the MySQL password for the system.
+	# 		break
+	# 	except:
+	# 		messagebox.showerror("Incorrect Password", "Incorrect MySQL password. Try again.")
+	# 		os.remove(os.path.dirname(os.path.realpath(__file__))+"/MySQL_password.txt")
+	# 		taking_password()
+	mydb = mysql.connector.connect(host = "localhost", user = "root", password = "new_password")
 	my_cursor = mydb.cursor()
 	#creating the database if it doesn't already exist:
 	my_cursor.execute("create database if not exists Attendance_System")
