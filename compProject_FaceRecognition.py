@@ -244,7 +244,7 @@ def face_recognition_fn(sample_face_encodings, sample_face_names):
                 identified_faces.append(display_name_id)
 
                 # Assuming mark_attendance is a function you have defined elsewhere
-                # mark_attendance(date, time, display_name_id.split("_")[0], display_name_id.split("_")[1])
+                mark_attendance(date, time, display_name_id.split("_")[0], display_name_id.split("_")[1])
 
             try:
                 cv2.rectangle(frame, (left_coord, top_coord), (right_coord, bottom_coord), (214, 119, 30), 2)
