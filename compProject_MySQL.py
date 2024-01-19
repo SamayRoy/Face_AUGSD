@@ -122,7 +122,6 @@ def fetching_data(self): 	#i've put the data in the list, "info" but it still ha
 	return info
 
 def deleting_data(self):
-	pword = taking_password()
 	mydb = mysql.connector.connect(host = "localhost", user = "root", password = "new_password", database = "Attendance_System")
 	my_cursor = mydb.cursor()
 	my_cursor.execute("delete from new_student_info where Student_id = {}".format(self.var_roll.get(),))
@@ -131,7 +130,6 @@ def deleting_data(self):
 	mydb.close()
 
 def searching_data(self, search_field, search_val):
-	pword = taking_password()
 	mydb = mysql.connector.connect(host = "localhost", user = "root", password = "new_password", database = "Attendance_System")
 	my_cursor = mydb.cursor()
 	if search_field == "Name":
@@ -145,7 +143,6 @@ def searching_data(self, search_field, search_val):
 	return info
 
 def completing_data(self, search_val):
-	pword = taking_password()
 	mydb = mysql.connector.connect(host = "localhost", user = "root", password = "new_password", database = "Attendance_System")
 	my_cursor = mydb.cursor()
 	my_cursor.execute("select Stream, Roll_No from new_student_info where Student_id = {}".format(search_val))

@@ -8,134 +8,261 @@ from os import listdir
 from os.path import isfile, join
 
 
+# def collect_samples(sample_name, student_id):
+# 	vid_capture = cv2.VideoCapture(0)	#opens the video stream.
+
+# 	img_captured = False
+# 	while True:
+# 		if not vid_capture.isOpened():	#checks if vid stream is open.
+# 			vid_capture.open()	#opens vid stream if vid stream hadn't been opened.
+
+# 		return_val, frame = vid_capture.read()	#captures single frame from camera.
+# 		rgb_img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)	#OpenCV uses BGR format, whereas face_recognition uses RGB - we change it here.
+
+# 		face_locations = face_recognition.face_locations(rgb_img)	#finding the coordinates for each face in the img
+# 		face_encodings = face_recognition.face_encodings(rgb_img, face_locations)	#generates array of faces.
+
+# 		for (top_coord, right_coord, bottom_coord, left_coord), face_encoding in zip(face_locations, face_encodings):	#Going through each face in the frame.
+# 			img_dir = os.path.dirname(os.path.realpath(__file__))+"//Sample_Imgs/" 
+# 			if cv2.waitKey(1) & 0xFF == ord("y"):	#writes the frame into memory, then closes the window if user presses "y".
+# 				img_dir = os.path.dirname(os.path.realpath("/home/postman/cv_attendance/student_imgs"))
+# 				cv2.imwrite("{}{}_{}_sample_img.jpg".format(img_dir, sample_name, student_id), frame)
+# 				#print("Sample image captured!")
+# 				img_captured = True
+# 				continue
+
+# 			#cv2.imwrite("{}{}_sample_img.jpg".format(img_dir, sample_name), frame)
+# 			cv2.rectangle(frame, (left_coord, top_coord), (right_coord, bottom_coord), (214, 119, 30), 2)	#drawing rectangles around the faces.
+# 			#Syntax: cv2.rectangle(<img>, <start pt>, <end pt>, <colour - BGR format>, <thickness - -1 means filled rectangle>)
+# 			cv2.rectangle(frame, (left_coord, bottom_coord - 30), (right_coord, bottom_coord), (214, 119, 30), -1)	#a label below the rectangle.
+# 			#cv2.circle(frame, (int((top_coord+bottom_coord)/2),int((left_coord+right_coord)/2)), int((top_coord+bottom_coord)/2), (102, 148, 227), 10)
+# 			cv2.putText(frame, "Face detected - press 'y'", (left_coord + 5, bottom_coord - 5), cv2.FONT_HERSHEY_COMPLEX, 0.75, (255, 255, 255), 2, cv2.LINE_AA, False)
+			
+
+# 		cv2.imshow("Taking Samples", frame)	#displays the frame.
+
+# 		if cv2.waitKey(1) & 0xFF == ord("q") or img_captured:	#closes the window if user presses 'q'.
+# 			break
+
+# 	vid_capture.release()
+# 	cv2.destroyAllWindows()
+
 def collect_samples(sample_name, student_id):
-	vid_capture = cv2.VideoCapture(0)	#opens the video stream.
+    vid_capture = cv2.VideoCapture(0)  # opens the video stream.
+    img_captured = False
 
-	img_captured = False
-	while True:
-		if not vid_capture.isOpened():	#checks if vid stream is open.
-			vid_capture.open()	#opens vid stream if vid stream hadn't been opened.
+    while True:
+        if not vid_capture.isOpened():  # checks if vid stream is open.
+            vid_capture.open()  # opens vid stream if vid stream hadn't been opened.
 
-		return_val, frame = vid_capture.read()	#captures single frame from camera.
-		rgb_img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)	#OpenCV uses BGR format, whereas face_recognition uses RGB - we change it here.
+        return_val, frame = vid_capture.read()  # captures single frame from camera.
+        rgb_img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # OpenCV uses BGR format, whereas face_recognition uses RGB.
 
-		face_locations = face_recognition.face_locations(rgb_img)	#finding the coordinates for each face in the img
-		face_encodings = face_recognition.face_encodings(rgb_img, face_locations)	#generates array of faces.
+        face_locations = face_recognition.face_locations(rgb_img)
+        face_encodings = face_recognition.face_encodings(rgb_img, face_locations)
 
-		for (top_coord, right_coord, bottom_coord, left_coord), face_encoding in zip(face_locations, face_encodings):	#Going through each face in the frame.
-			img_dir = os.path.dirname(os.path.realpath(__file__))+"//Sample_Imgs/" 
-			if cv2.waitKey(1) & 0xFF == ord("y"):	#writes the frame into memory, then closes the window if user presses "y".
-				img_dir = os.path.dirname(os.path.realpath(__file__))+"//Sample_Imgs/" 
-				cv2.imwrite("{}{}_{}_sample_img.jpg".format(img_dir, sample_name, student_id), frame)
-				#print("Sample image captured!")
-				img_captured = True
-				continue
+        for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
+            img_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), "Sample_Imgs")
+            
+            if cv2.waitKey(1) & 0xFF == ord("y"):
+                img_dir = os.path.join("/home/postman/cv_attendance/student_imgs")
+                img_path = os.path.join(img_dir, "{}_{}_sample_img.jpg".format(sample_name, student_id))
+                cv2.imwrite(img_path, frame)
+                img_captured = True
+                continue
 
-			#cv2.imwrite("{}{}_sample_img.jpg".format(img_dir, sample_name), frame)
-			cv2.rectangle(frame, (left_coord, top_coord), (right_coord, bottom_coord), (214, 119, 30), 2)	#drawing rectangles around the faces.
-			#Syntax: cv2.rectangle(<img>, <start pt>, <end pt>, <colour - BGR format>, <thickness - -1 means filled rectangle>)
-			cv2.rectangle(frame, (left_coord, bottom_coord - 30), (right_coord, bottom_coord), (214, 119, 30), -1)	#a label below the rectangle.
-			#cv2.circle(frame, (int((top_coord+bottom_coord)/2),int((left_coord+right_coord)/2)), int((top_coord+bottom_coord)/2), (102, 148, 227), 10)
-			cv2.putText(frame, "Face detected - press 'y'", (left_coord + 5, bottom_coord - 5), cv2.FONT_HERSHEY_COMPLEX, 0.75, (255, 255, 255), 2, cv2.LINE_AA, False)
+            cv2.rectangle(frame, (left, top), (right, bottom), (214, 119, 30), 2)
+            cv2.rectangle(frame, (left, bottom - 30), (right, bottom), (214, 119, 30), -1)
+            cv2.putText(frame, "Face detected - press 'y'", (left + 5, bottom - 5),
+                        cv2.FONT_HERSHEY_COMPLEX, 0.75, (255, 255, 255), 2, cv2.LINE_AA, False)
+
+        cv2.imshow("Taking Samples", frame)
+
+        if cv2.waitKey(1) & 0xFF == ord("q") or img_captured:
+            break
+
+    vid_capture.release()
+    cv2.destroyAllWindows()
+
+
+
+
+# def load_images(): #sample_name):	#encodes the sample images as arrays.
+# 	sample_face_encodings, sample_face_names = [], []
+# 	img_found = False
+# 	try:
+# 		img_dir = os.path.dirname(os.path.realpath(__file__))+"/Sample_Imgs/"  	 #image directory.
+# 		onlyfiles = [f for f in listdir(img_dir) if isfile(join(img_dir, f))]
+# 		for i in onlyfiles: 
 			
-
-		cv2.imshow("Taking Samples", frame)	#displays the frame.
-
-		if cv2.waitKey(1) & 0xFF == ord("q") or img_captured:	#closes the window if user presses 'q'.
-			break
-
-	vid_capture.release()
-	cv2.destroyAllWindows()
-
-
-
-def load_images(): #sample_name):	#encodes the sample images as arrays.
-	sample_face_encodings, sample_face_names = [], []
-	img_found = False
-	try:
-		img_dir = os.path.dirname(os.path.realpath(__file__))+"/Sample_Imgs/"  	 #image directory.
-		onlyfiles = [f for f in listdir(img_dir) if isfile(join(img_dir, f))]
-		for i in onlyfiles: 
-			
-			if i[::-1][:15][::-1] == "_sample_img.jpg":
-				img_found = True
-				sample_name2 = i.split("_")[0]
-				student_id = i.split("_")[1]
-				sample_face_names.append(sample_name2+"_"+student_id)
-				sample_img2 = face_recognition.load_image_file("{}{}_{}_sample_img.jpg".format(img_dir, sample_name2, student_id))	#loads the image from the file.
+# 			if i[::-1][:15][::-1] == "_sample_img.jpg":
+# 				img_found = True
+# 				sample_name2 = i.split("_")[0]
+# 				student_id = i.split("_")[1]
+# 				sample_face_names.append(sample_name2+"_"+student_id)
+# 				sample_img2 = face_recognition.load_image_file("{}{}_{}_sample_img.jpg".format(img_dir, sample_name2, student_id))	#loads the image from the file.
 				
-				try:
-					sample_face_encoding2 = face_recognition.face_encodings(sample_img2)[0]
-					sample_face_encodings.append(sample_face_encoding2)
-				except IndexError:
-					print("Couldn't detect any faces in {}'s image!".format(sample_name2))		#exception handling.
-					continue
-		if img_found == False:
-			print("No sample images taken!")
-			quit()
+# 				try:
+# 					sample_face_encoding2 = face_recognition.face_encodings(sample_img2)[0]
+# 					sample_face_encodings.append(sample_face_encoding2)
+# 				except IndexError:
+# 					print("Couldn't detect any faces in {}'s image!".format(sample_name2))		#exception handling.
+# 					continue
+# 		if img_found == False:
+# 			print("No sample images taken!")
+# 			quit()
 	
-	except Exception as es:
-		print("You haven't given us a sample for this name yet!")
-		quit()
+# 	except Exception as es:
+# 		print("You haven't given us a sample for this name yet!")
+# 		quit()
 
-	return sample_face_encodings, sample_face_names 
+# 	return sample_face_encodings, sample_face_names 
+
+def load_images():
+    sample_face_encodings, sample_face_names = [], []
+    img_found = False
+
+    try:
+        img_dir = "/home/postman/cv_attendance/student_imgs/"  # Student images directory.
+        onlyfiles = [f for f in listdir(img_dir) if isfile(join(img_dir, f))]
+        
+        for i in onlyfiles:
+            if i[::-1][:15][::-1] == "_sample_img.jpg":
+                img_found = True
+                sample_name2 = i.split("_")[0]
+                student_id = i.split("_")[1]
+                sample_face_names.append(sample_name2 + "_" + student_id)
+                sample_img2 = face_recognition.load_image_file("{}{}_{}_sample_img.jpg".format(img_dir, sample_name2, student_id))
+
+                try:
+                    sample_face_encoding2 = face_recognition.face_encodings(sample_img2)[0]
+                    sample_face_encodings.append(sample_face_encoding2)
+                except IndexError:
+                    print("Couldn't detect any faces in {}'s image!".format(sample_name2))
+                    continue
+
+        if not img_found:
+            print("No sample images taken!")
+            quit()
+
+    except Exception as es:
+        print("An error occurred:", es)
+        quit()
+
+    return sample_face_encodings, sample_face_names
+
+# def face_recognition_fn(sample_face_encodings, sample_face_names):
+# 	vid_capture = cv2.VideoCapture(0)
+
+# 	identified_faces = []
+
+# 	while True:
+# 		return_val, frame = vid_capture.read()	#captures a single frame.
+		
+# 		if not vid_capture.isOpened():	#sometimes, vid_capture may not open the vid stream.
+# 			vid_capture.open()	#if it doesn't open the stream, we open it here.
+
+# 		rgb_img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)	#OpenCV uses BGR format, whereas face_recognition uses RGB - we change it here.
+
+# 		face_locations = face_recognition.face_locations(rgb_img)	#finding the coordinates for each face in the img
+# 		face_encodings = face_recognition.face_encodings(rgb_img, face_locations)	#generates array of faces.
+
+# 		cv2.rectangle(frame, (20, 15), (340, 55), (214, 119, 30), -1)	#a label below the rectangle.
+# 		cv2.putText(frame, str("Press 'q' to close"), (30, 45), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA, False)
+
+# 		for (top_coord, right_coord, bottom_coord, left_coord), face_encoding in zip(face_locations, face_encodings):	#Going through each face in the frame.
+# 			face_matches = face_recognition.compare_faces(sample_face_encodings, face_encoding)		#comparing faces to sample pics.
+
+# 			display_name_id = "Unknown"	#name to be displayed if face is not recognised.
+
+# 			face_distances = face_recognition.face_distance(sample_face_encodings, face_encoding)
+# 			best_match_ind = np.argmin(face_distances)	#finds min distanced face in the array, 'face_distances'
+# 			if face_matches[best_match_ind]:	#if the index exists in the matches list, we set the name to the corresponding sample name.
+# 				display_name_id = sample_face_names[best_match_ind]
+				
+# 				date = datetime.now().strftime("%d-%m-%Y")
+# 				time = datetime.now().strftime("%H:%M:%S")
+# 				identified_faces.append(display_name_id)
+
+
+# 				mark_attendance(date, time, display_name_id.split("_")[0], display_name_id.split("_")[1])	#marks attendance as soon as it sees the face.
+# 			try:
+# 				cv2.rectangle(frame, (left_coord, top_coord), (right_coord, bottom_coord), (214, 119, 30), 2)	#drawing rectangles around the faces.
+# 				#Syntax: cv2.rectangle(<img>, <start pt>, <end pt>, <colour - BGR format>, <thickness - -1 means filled rectangle>)
+# 				cv2.rectangle(frame, (left_coord, bottom_coord - 30), (right_coord, bottom_coord), (214, 119, 30), -1)	#a label below the rectangle.
+# 				#cv2.circle(frame, (int((top_coord+bottom_coord)/2),int((left_coord+right_coord)/2)), int((top_coord+bottom_coord)/2), (102, 148, 227), 10)
+# 				cv2.putText(frame, str(display_name_id.split("_")[0]+", Student ID: "+display_name_id.split("_")[1]), (left_coord + 5, bottom_coord - 5), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA, False)
+# 				#Syntax: cv2.putText(<img>, <text>, <origin>, <font>, <fontScale AKA size>, 
+# 				#<colour>, <thickness>, <lineType - cv2.line_AA stands for anti-aliased line, 
+# 				#basically its a smoothly curved line.>, <if text starts from bottom-left - default: False>)
+# 			except:
+# 				pass
+
+# 		cv2.imshow("Face Recognition", frame)	#displays the frame.
+# 		if cv2.waitKey(1) & 0xFF == ord("q"):	#quits if user presses enter.
+# 			break
+
+# 	vid_capture.release()	#releasing the video stream.
+# 	cv2.destroyAllWindows()	#destroying the OpenCV window.
+
+# 	return list(dict.fromkeys(identified_faces))	#returning list of ppl indentified after removing duplicate names.
 
 
 def face_recognition_fn(sample_face_encodings, sample_face_names):
-	vid_capture = cv2.VideoCapture(0)
+    vid_capture = cv2.VideoCapture(0)
 
-	identified_faces = []
+    identified_faces = []
 
-	while True:
-		return_val, frame = vid_capture.read()	#captures a single frame.
-		
-		if not vid_capture.isOpened():	#sometimes, vid_capture may not open the vid stream.
-			vid_capture.open()	#if it doesn't open the stream, we open it here.
+    # Check if the camera is successfully opened
+    if not vid_capture.isOpened():
+        print("Error: Unable to open the camera.")
+        return identified_faces
 
-		rgb_img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)	#OpenCV uses BGR format, whereas face_recognition uses RGB - we change it here.
+    while True:
+        return_val, frame = vid_capture.read()
 
-		face_locations = face_recognition.face_locations(rgb_img)	#finding the coordinates for each face in the img
-		face_encodings = face_recognition.face_encodings(rgb_img, face_locations)	#generates array of faces.
+        rgb_img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-		cv2.rectangle(frame, (20, 15), (340, 55), (214, 119, 30), -1)	#a label below the rectangle.
-		cv2.putText(frame, str("Press 'q' to close"), (30, 45), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA, False)
+        face_locations = face_recognition.face_locations(rgb_img)
+        face_encodings = face_recognition.face_encodings(rgb_img, face_locations)
 
-		for (top_coord, right_coord, bottom_coord, left_coord), face_encoding in zip(face_locations, face_encodings):	#Going through each face in the frame.
-			face_matches = face_recognition.compare_faces(sample_face_encodings, face_encoding)		#comparing faces to sample pics.
+        cv2.rectangle(frame, (20, 15), (340, 55), (214, 119, 30), -1)
+        cv2.putText(frame, str("Press 'q' to close"), (30, 45), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA, False)
 
-			display_name_id = "Unknown"	#name to be displayed if face is not recognised.
+        for (top_coord, right_coord, bottom_coord, left_coord), face_encoding in zip(face_locations, face_encodings):
+            face_matches = face_recognition.compare_faces(sample_face_encodings, face_encoding)
 
-			face_distances = face_recognition.face_distance(sample_face_encodings, face_encoding)
-			best_match_ind = np.argmin(face_distances)	#finds min distanced face in the array, 'face_distances'
-			if face_matches[best_match_ind]:	#if the index exists in the matches list, we set the name to the corresponding sample name.
-				display_name_id = sample_face_names[best_match_ind]
-				
-				date = datetime.now().strftime("%d-%m-%Y")
-				time = datetime.now().strftime("%H:%M:%S")
-				identified_faces.append(display_name_id)
+            display_name_id = "Unknown"
 
+            face_distances = face_recognition.face_distance(sample_face_encodings, face_encoding)
+            best_match_ind = np.argmin(face_distances)
+            if face_matches[best_match_ind]:
+                display_name_id = sample_face_names[best_match_ind]
 
-				mark_attendance(date, time, display_name_id.split("_")[0], display_name_id.split("_")[1])	#marks attendance as soon as it sees the face.
-			try:
-				cv2.rectangle(frame, (left_coord, top_coord), (right_coord, bottom_coord), (214, 119, 30), 2)	#drawing rectangles around the faces.
-				#Syntax: cv2.rectangle(<img>, <start pt>, <end pt>, <colour - BGR format>, <thickness - -1 means filled rectangle>)
-				cv2.rectangle(frame, (left_coord, bottom_coord - 30), (right_coord, bottom_coord), (214, 119, 30), -1)	#a label below the rectangle.
-				#cv2.circle(frame, (int((top_coord+bottom_coord)/2),int((left_coord+right_coord)/2)), int((top_coord+bottom_coord)/2), (102, 148, 227), 10)
-				cv2.putText(frame, str(display_name_id.split("_")[0]+", Student ID: "+display_name_id.split("_")[1]), (left_coord + 5, bottom_coord - 5), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA, False)
-				#Syntax: cv2.putText(<img>, <text>, <origin>, <font>, <fontScale AKA size>, 
-				#<colour>, <thickness>, <lineType - cv2.line_AA stands for anti-aliased line, 
-				#basically its a smoothly curved line.>, <if text starts from bottom-left - default: False>)
-			except:
-				pass
+                date = datetime.now().strftime("%d-%m-%Y")
+                time = datetime.now().strftime("%H:%M:%S")
+                identified_faces.append(display_name_id)
 
-		cv2.imshow("Face Recognition", frame)	#displays the frame.
-		if cv2.waitKey(1) & 0xFF == ord("q"):	#quits if user presses enter.
-			break
+                # Assuming mark_attendance is a function you have defined elsewhere
+                # mark_attendance(date, time, display_name_id.split("_")[0], display_name_id.split("_")[1])
 
-	vid_capture.release()	#releasing the video stream.
-	cv2.destroyAllWindows()	#destroying the OpenCV window.
+            try:
+                cv2.rectangle(frame, (left_coord, top_coord), (right_coord, bottom_coord), (214, 119, 30), 2)
+                cv2.rectangle(frame, (left_coord, bottom_coord - 30), (right_coord, bottom_coord), (214, 119, 30), -1)
+                cv2.putText(frame, str(display_name_id.split("_")[0] + ", Student ID: " + display_name_id.split("_")[1]),
+                            (left_coord + 5, bottom_coord - 5), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA, False)
+            except Exception as e:
+                print("Error:", e)
 
-	return list(dict.fromkeys(identified_faces))	#returning list of ppl indentified after removing duplicate names.
+        cv2.imshow("Face Recognition", frame)
+        if cv2.waitKey(1) & 0xFF == ord("q"):
+            break
+
+    vid_capture.release()
+    cv2.destroyAllWindows()
+
+    return list(dict.fromkeys(identified_faces))
+
 
 def mark_attendance(date, time, name, student_id):
 	csv_input = []
